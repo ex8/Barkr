@@ -8,4 +8,10 @@ Just swipe right on any fabulous pets you'd like your pet to go on a date with.
 
 # Rough Sketches
 
-![Logged in Home Page](./sketch/register.jpg)
+Creating a new account
+
+![Creating a new account](./sketch/register.jpg)
+
+Viewing other pets in the area
+
+![Viewing other pets](./sketch/homepage.jpg)
