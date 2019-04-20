@@ -7,15 +7,15 @@ Barkr will allow you to find your pet a playdate.
 Just swipe right on any fabulous pets you'd like your pet to go on a date with.
 
 # Architecture
-Frontend Stack: React, Redux, Material UI
+`Frontend Stack:` React, Redux, Material UI
 
-Backend Stack: Express, MongoDB, Docker, Redis, Websocket
+`Backend Stack:` Express, MongoDB, Docker, Redis, Websocket
 
-Main architecture flow;
+`Main architecture flow;`
 
  Frontend <--> Microservice Gateway <--> Backend <--> MongoDB
 
-Routes/Pages;
+`Routes/Pages;`
 
 '/' -> index page (shows other pets in the area)
 
@@ -32,7 +32,7 @@ Routes/Pages;
 '/chats/id' -> show petconversation detail
 
 
-Models;
+`Models;`
 
 User -> first_name, last_name, email, password, age
 
