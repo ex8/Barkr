@@ -1,16 +1,16 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import axios from 'axios';
+import {CircularProgress} from "@material-ui/core";
 
 const styles = theme => ({
     main: {
@@ -44,41 +44,80 @@ const styles = theme => ({
     },
 });
 
-function Login(props) {
-    const {classes} = props;
+class Login extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            loading: false
+        };
+    }
 
-    return (
-        <main className={classes.main}>
-            <CssBaseline/>
-            <Paper className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Login
-                </Typography>
-                <form className={classes.form}>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="email">Email Address</InputLabel>
-                        <Input id="email" name="email" autoComplete="email" autoFocus/>
-                    </FormControl>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">Password</InputLabel>
-                        <Input name="password" type="password" id="password" autoComplete="current-password"/>
-                    </FormControl>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Proceed
-                    </Button>
-                </form>
-            </Paper>
-        </main>
-    );
+    onInputChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    };
+
+    onFormSubmit = e => {
+        e.preventDefault();
+        this.setState({loading: true});
+        axios.post(`/api/login`, {
+            email: this.state.email,
+            password: this.state.password
+        })
+            .then(res => {
+                if (res.data.success) {
+                    localStorage.setItem(`jwtToken`, res.data.token);
+                    this.setState({
+                        email: '',
+                        password: '',
+                        loading: false
+                    });
+                }
+            })
+            .catch(err => console.error(err))
+    };
+
+    render() {
+        const {classes} = this.props;
+        return (
+            <main className={classes.main}>
+                <CssBaseline/>
+                <Paper className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon/>
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Login
+                    </Typography>
+                    <form className={classes.form} onSubmit={this.onFormSubmit}>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="email">Email Address</InputLabel>
+                            <Input id="email" value={this.state.email} onChange={this.onInputChange}
+                                   name="email" autoComplete="email" autoFocus/>
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <Input id="password" value={this.state.password} onChange={this.onInputChange}
+                                   name="password" type="password" autoComplete="current-password"/>
+                        </FormControl>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}>
+                            {!this.state.loading && 'Proceed'}
+                            {this.state.loading && <CircularProgress/>}
+                        </Button>
+                    </form>
+                </Paper>
+            </main>
+        );
+    }
 }
+
 
 export default withStyles(styles)(Login);

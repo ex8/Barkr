@@ -42,7 +42,7 @@ const styles = theme => ({
     },
 });
 
-function Signup(props) {
+const Signup = props => {
     const {classes} = props;
 
     return (
@@ -93,6 +93,6 @@ function Signup(props) {
             </Paper>
         </main>
     );
-}
+};
 
 export default withStyles(styles)(Signup);

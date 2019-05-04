@@ -1,7 +1,10 @@
 const Pet = require('../models/pet');
 
 module.exports.me = (req, res) => {
-    res.send(req.user);
+    res.json({
+        success: true,
+        user: req.user
+    });
 };
 
 module.exports.signUp = (req, res) => {
