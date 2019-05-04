@@ -32,9 +32,12 @@ const Navigation = ({classes}) => (
                 <Link to='/about' className={classes.linkButton}>
                     <Button color='inherit'>About</Button>
                 </Link>
-
-                <Button color='inherit'>Login</Button>
-                <Button color='inherit'>Signup</Button>
+                <Link to='/login' className={classes.linkButton}>
+                    <Button color='inherit'>Login</Button>
+                </Link>
+                <Link to='/signup' className={classes.linkButton}>
+                    <Button color='inherit'>Signup</Button>
+                </Link>
                 <IconButton color="inherit" aria-label="Profile">
                     <AccountCircle/>
                 </IconButton>

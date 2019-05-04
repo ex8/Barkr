@@ -2,7 +2,7 @@ import React from 'react';
 
 const About = () => (
     <div>
-        HEHEHEHEHE
+        about barkr
     </div>
 );
 
