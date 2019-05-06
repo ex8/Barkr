@@ -23,7 +23,7 @@ const Navigation = ({classes}) => (
     <AppBar position="static">
         <Toolbar>
             <Typography variant="h5" color="inherit">
-                Barkr
+                <Link to="/" className={classes.linkButton}>Barkr</Link>
             </Typography>
             <div className={classes.rightToolbar}>
                 <Link to='/' className={classes.linkButton}>

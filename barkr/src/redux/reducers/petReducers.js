@@ -1,9 +1,10 @@
 const INITIAL_STATE = {
     email: '',
     password: '',
+    loginState: 'INITIAL'
 };
 
-function loginReducer(state=INITIAL_STATE, action) {
+const petsReducer = (state=INITIAL_STATE, action) => {
     switch(action.type) {
         case 'UPDATE_EMAIL':
             return {
@@ -18,6 +19,6 @@ function loginReducer(state=INITIAL_STATE, action) {
         default:
             return state;
     }
-}
+};
 
-export default loginReducer;
+export default petsReducer;
