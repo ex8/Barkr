@@ -1,0 +1,61 @@
+body {
+    font-family: "Calibri";
+    font-weight: 300;
+    color: #343434;
+    font-size: 20px;
+    background-color: white;
+    line-height: 1.3em;
+}
+
+h1 {
+    font-family: "calibri";
+    display: block;
+    font-size: 1.75em;
+    font-weight: bold;
+}
+
+h2 {
+    font-family: "calibri";
+    display: block;
+    font-size: 1.35em;
+}
+
+.btn {
+    font-size:24px;
+    border-radius:50%;
+    color:#fff;
+}
+.btn-green {
+    background-color:#009688;
+}
+
+.btn-red {
+    background-color:#b33b3b;
+}
+
+
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    padding-top: 100px;
+    margin-top: 50px;
+
+  }
+  
+  /* Add rounded corners to the top left and the top right corner of the image */
+  img {
+    border-radius: 5px 5px 0 0;
+  }
+
+  /* Add some padding inside the card container */
+  .container {
+    padding: 2px 16px;
+  }
