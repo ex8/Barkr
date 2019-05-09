@@ -109,8 +109,8 @@ class Login extends Component {
                             variant="contained"
                             color="primary"
                             className={classes.submit}>
-                            {!this.state.loading && 'Proceed'}
-                            {this.state.loading && <CircularProgress/>}
+                            {!this.state.loading && 'Login'}
+                            {this.state.loading && <CircularProgress size={25} color={'white'}/>}
                         </Button>
                     </form>
                 </Paper>
