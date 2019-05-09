@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+// Incomplete
 const userSchema = new Schema({
     First_Name: {
         type: String,
@@ -10,7 +10,5 @@ const userSchema = new Schema({
         type: String,
         required: true
     }
-
-
 });
 const User = mongoose.model
