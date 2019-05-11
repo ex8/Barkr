@@ -28,12 +28,12 @@ class Navigation extends Component {
     }
 
     render() {
-        const {isAuthenticated, user} = this.props.auth;
+        const {isAuthenticated} = this.props.auth;
         const {classes} = this.props;
         const authLinks = (
             <div>
                 <IconButton color="inherit" aria-label="Profile">
-                    <AccountCircle/> {user.email}
+                    <AccountCircle/>
                 </IconButton>
                 <Button onClick={this.onLogout} color='inherit'>Logout</Button>
             </div>

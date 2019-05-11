@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 
 class PetNavigator extends Component {
     componentDidMount = () => {
-        if (this.props.auth.isAuthenticated) {
-            this.props.history.push(`/`);
+        if (!this.props.auth.isAuthenticated) {
+            this.props.history.push(`/login`);
         }
     };
 
@@ -13,6 +13,7 @@ class PetNavigator extends Component {
         return (
             <div>
                 show pets around...
+                <br />
             </div>
         )
     };
@@ -22,4 +23,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 });
 
-export default (connect(mapStateToProps))(withRouter(PetNavigator));
+export default connect(mapStateToProps)(withRouter(PetNavigator));
