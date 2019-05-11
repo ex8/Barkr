@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import withStyles from '@material-ui/core/styles/withStyles';
-import axios from 'axios';
-import {Avatar, Button, CssBaseline, FormControl, Input, InputLabel, Paper, Typography} from '@material-ui/core';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {petSignup} from '../redux/actions/petActions';
+import {Avatar, Button, CssBaseline, FormControl, 
+    Input, InputLabel, Paper, Typography, CircularProgress} from '@material-ui/core';
 
 const styles = theme => ({
     main: {
@@ -50,6 +53,8 @@ class Signup extends Component {
             breed: '',
             city: '',
             state: '',
+            loading: false,
+            errors: {},
         };
     }
 
@@ -61,34 +66,37 @@ class Signup extends Component {
 
     onFormSubmit = e => {
         e.preventDefault();
-        axios.post(`/api/signup`, this.state)
-            .then(res => {
-                console.log(res);
-                if (res.data.success) {
-                    this.setState({
-                        email: '',
-                        password: '',
-                        name: '',
-                        age: '',
-                        breed: '',
-                        city: '',
-                        state: '',
-                        successMessage: 'Pet created. You may now login!'
-                    });
-                }
-                else {
-                    this.setState({
-                        errorMessage: 'Error creating pet. Try again!'
-                    });
-                }
-            }).catch(err => {
-                console.error(`Error creating pet... ${err}`);
+        this.setState({loading: true});
+        const pet = {
+            email: this.state.email,
+            password: this.state.password,
+            name: this.state.name,
+            age: this.state.age,
+            breed: this.state.breed,
+            city: this.state.city,
+            state: this.state.state
+        };
+        this.props.petSignup(pet, this.props.history);
+        this.setState({loading: false});
+    };
+
+    componentWillReceiveProps = nextProps => {
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
             });
+        }
+    };
+
+    componentDidMount = () => {
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push(`/`);
+        }
     };
 
     render() {
         const {classes} = this.props;
-        const {email, password, name, age, breed, city, state, errorMessage, successMessage} = this.state;
+        const {email, password, name, age, breed, city, state} = this.state;
         return (
             <main className={classes.main}>
                 <CssBaseline/>
@@ -98,10 +106,6 @@ class Signup extends Component {
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign up
-                    </Typography>
-                    <Typography component="h6" variant="h6">
-                        {successMessage}
-                        {errorMessage}
                     </Typography>
                     <form className={classes.form} onSubmit={this.onFormSubmit}>
                         <FormControl margin="normal" required fullWidth>
@@ -139,7 +143,8 @@ class Signup extends Component {
                             color="primary"
                             className={classes.submit}
                         >
-                            Signup
+                            {!this.state.loading && 'Signup'}
+                            {this.state.loading && <CircularProgress size={25} color={'primary'}/>}
                         </Button>
                     </form>
                 </Paper>
@@ -148,4 +153,14 @@ class Signup extends Component {
     }
 }
 
-export default withStyles(styles)(Signup);
+const mapStateToProps = state => ({
+    errors: state.errors,
+    auth: state.auth
+});
+
+const mapDispatchToProps = {petSignup};
+
+export default withStyles(styles)(connect(
+    mapStateToProps, 
+    mapDispatchToProps
+    )(withRouter(Signup)));
