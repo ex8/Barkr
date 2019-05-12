@@ -15,6 +15,8 @@ import {petLogin} from '../redux/actions/petActions';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
 
 const styles = theme => ({
     main: {
@@ -28,6 +30,13 @@ const styles = theme => ({
             marginRight: 'auto',
         },
     },
+    sideNav: {
+        display: 'block',
+        width: 200,
+    },
+    root: {
+        display: 'flex',
+      },
     paper: {
         marginTop: theme.spacing.unit * 8,
         display: 'flex',
@@ -54,6 +63,7 @@ const styles = theme => ({
         marginRight: theme.spacing.unit,
     },
 });
+const states = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
 
 class Profile extends Component {
     constructor(props) {
@@ -64,7 +74,13 @@ class Profile extends Component {
             email: '',
             password: '',
             dobb: '',
+            address : '',
+            unit : '',
+            city : '',
+            state : '',
+            zip : '',
             loading: false,
+            editOn: false,
             errors: {}
         };
     }
@@ -102,9 +118,19 @@ class Profile extends Component {
 
     render() {
         const {classes} = this.props;
-        return (
-            <main className={classes.main}>
-                <CssBaseline/>
+        return (            
+            <main className={classes.root}>
+             <Paper className={classes.paper}>
+                <div className= {classes.sideNav}>
+                <MenuList>
+                    <MenuItem>My Information</MenuItem>
+                    <MenuItem>My Pets</MenuItem>
+                    <MenuItem>Change Password</MenuItem>
+                </MenuList>
+                </div>
+                </Paper>
+                <div className={classes.main}>
+                <CssBaseline />
                 <Paper className={classes.paper}>
                     <Avatar className={classes.avatar}>
                         <AccountCircle/>
@@ -113,13 +139,15 @@ class Profile extends Component {
                         Profile
                     </Typography>
                     <Button 
+                            onClick={() => { this.setState({editOn: true}); }}
                             type="submit"
                             variant="contained"
                             color="primary"
                             className={classes.submit}>
                             {this.state.loading && <CircularProgress size={25} color={'primary'}/>}
                             <Edit className={classes.leftIcon} />
-                            Edit Profile
+                            {!this.state.editOn && "Edit Profile"}
+                            {this.state.editOn && "Cancel"}
                     </Button>
 
                     <form className={classes.container} onSubmit={this.onFormSubmit}>
@@ -139,29 +167,57 @@ class Profile extends Component {
                                    name="email" autoComplete="email" autoFocus/>
                         </FormControl>
                         <TextField
-                            margin="normal"
                             id="date"
                             label="Birthday"
                             type="date"
                             defaultValue="2017-05-24"
+                            margin="normal"
+                            fullWidth
                             className={classes.textField}
-                            onChange={this.onInputChange}
-                            value={this.state.email}
                             InputLabelProps={{
                                 shrink: true,
                             }}
                         />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}>
-                            {!this.state.loading && 'Submit'}
-                            {this.state.loading && <CircularProgress size={25} color={'primary'}/>}
-                        </Button>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="Address">Address</InputLabel>
+                            <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
+                                name="firstName" autoComplete="lastName" autoFocus />
+                        </FormControl>
+                        <FormControl margin="normal" fullWidth>
+                            <InputLabel htmlFor="Address">Unit</InputLabel>
+                            <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
+                                name="firstName" autoComplete="lastName" autoFocus />
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="Address">City</InputLabel>
+                            <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
+                                name="firstName" autoComplete="lastName" autoFocus />
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="Address">State</InputLabel>
+                            <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
+                                name="firstName" autoComplete="state" autoFocus />
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="Address">Zip</InputLabel>
+                            <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
+                                name="firstName" autoComplete="lastName" autoFocus />
+                        </FormControl>
+                        {this.state.editOn &&
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}>
+                                {!this.state.loading && 'Submit'}
+                                {this.state.loading && <CircularProgress size={25} color={'primary'} />}
+                            </Button>
+                        }
+
                     </form>
                 </Paper>
+                </div>
             </main>
         );
     }
