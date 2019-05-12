@@ -6,7 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import {Person, AccountCircle, Label} from '@material-ui/icons';
+import {Person, AccountCircle, Label, Edit} from '@material-ui/icons';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -14,6 +14,7 @@ import {CircularProgress, TextField} from "@material-ui/core";
 import {petLogin} from '../redux/actions/petActions';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
     main: {
@@ -48,7 +49,10 @@ const styles = theme => ({
     container: {
         display: 'flex',
         flexWrap: 'wrap',
-      },
+    },
+    leftIcon: {
+        marginRight: theme.spacing.unit,
+    },
 });
 
 class Profile extends Component {
@@ -108,6 +112,16 @@ class Profile extends Component {
                     <Typography component="h1" variant="h5">
                         Profile
                     </Typography>
+                    <Button 
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}>
+                            {this.state.loading && <CircularProgress size={25} color={'primary'}/>}
+                            <Edit className={classes.leftIcon} />
+                            Edit Profile
+                    </Button>
+
                     <form className={classes.container} onSubmit={this.onFormSubmit}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="firstName">First Name</InputLabel>
@@ -131,6 +145,8 @@ class Profile extends Component {
                             type="date"
                             defaultValue="2017-05-24"
                             className={classes.textField}
+                            onChange={this.onInputChange}
+                            value={this.state.email}
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -141,7 +157,7 @@ class Profile extends Component {
                             variant="contained"
                             color="primary"
                             className={classes.submit}>
-                            {!this.state.loading && 'Login'}
+                            {!this.state.loading && 'Submit'}
                             {this.state.loading && <CircularProgress size={25} color={'primary'}/>}
                         </Button>
                     </form>
