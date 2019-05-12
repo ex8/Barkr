@@ -9,8 +9,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import axios from 'axios';
 import {CircularProgress} from "@material-ui/core";
+import {petLogin} from '../redux/actions/petActions';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
 const styles = theme => ({
     main: {
@@ -50,7 +52,8 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
-            loading: false
+            loading: false,
+            errors: {}
         };
     }
 
@@ -63,21 +66,26 @@ class Login extends Component {
     onFormSubmit = e => {
         e.preventDefault();
         this.setState({loading: true});
-        axios.post(`/api/login`, {
+        const pet = {
             email: this.state.email,
             password: this.state.password
-        })
-            .then(res => {
-                if (res.data.success) {
-                    localStorage.setItem(`jwtToken`, res.data.token);
-                    this.setState({
-                        email: '',
-                        password: '',
-                        loading: false
-                    });
-                }
-            })
-            .catch(err => console.error(err))
+        };
+        this.props.petLogin(pet, this.props.history);
+        this.setState({loading: false});
+    };
+
+    componentWillReceiveProps = nextProps => {
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
+    };
+
+    componentDidMount = () => {
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push(`/`);
+        }
     };
 
     render() {
@@ -109,8 +117,8 @@ class Login extends Component {
                             variant="contained"
                             color="primary"
                             className={classes.submit}>
-                            {!this.state.loading && 'Proceed'}
-                            {this.state.loading && <CircularProgress/>}
+                            {!this.state.loading && 'Login'}
+                            {this.state.loading && <CircularProgress size={25} color={'primary'}/>}
                         </Button>
                     </form>
                 </Paper>
@@ -119,5 +127,13 @@ class Login extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    errors: state.errors,
+    auth: state.auth
+});
 
-export default withStyles(styles)(Login);
+const mapDispatchToProps = {petLogin};
+
+export default withStyles(styles)(connect(
+    mapStateToProps, mapDispatchToProps
+    )(withRouter(Login)));

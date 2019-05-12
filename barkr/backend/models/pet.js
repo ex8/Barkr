@@ -24,6 +24,9 @@ const petSchema = new Schema({
         type: String,
         required: true
     },
+    thumbnail: {
+        type: String,
+    },
     city: {
         type: String,
         required: true
