@@ -9,7 +9,10 @@ class PetNavigator extends Component {
         super(props);
         this.state = {
             petsAround: [],
-            errorMessage: ''
+            errorMessage: '',
+            currentPet: {},
+            counter: 0,
+            isEnd: false
         }
     }
 
@@ -30,7 +33,8 @@ class PetNavigator extends Component {
             axios.get(`/api/pets-around`, config)
                 .then(pets => {
                     this.setState({
-                        petsAround: pets.data.pets
+                        petsAround: pets.data.pets,
+                        currentPet: pets.data.pets[this.state.counter]
                     });
                 }).catch(err => {
                     this.setState({
@@ -40,12 +44,32 @@ class PetNavigator extends Component {
         }
     };
 
+    onDislikeClick = () => {
+        if (this.state.petsAround.length - 1 === this.state.counter) {
+            this.setState({
+                isEnd: true
+            });
+        }
+        this.setState(prevState => ({
+            counter: prevState.counter + 1,
+            currentPet: this.state.petsAround[prevState.counter + 1]
+        }))
+    };
+
+    onLikeClick = () => {
+        console.log('liked');
+    };
+
     render() {
         return (
             <div>
-                {this.state.petsAround.map(pet => (
-                    <Pet pet={pet} key={pet._id}/>
-                ))}
+                {!this.state.isEnd && <Pet 
+                    key={this.state.currentPet._id}
+                    pet={this.state.currentPet} 
+                    handleDislikeClick={this.onDislikeClick}
+                    handleLikeClick={this.onLikeClick} 
+                />}
+                {this.state.isEnd && 'End of pets around...'}
             </div>
         )
     };
