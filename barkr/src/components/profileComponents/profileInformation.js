@@ -1,85 +1,78 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import React, { Component } from 'react';
 import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import {CircularProgress, TextField} from "@material-ui/core";
-// npm install @material-ui/styles@next
-const drawerWidth = 240;
+import { CircularProgress, TextField } from "@material-ui/core";
+import {Person, AccountCircle, Label, Edit} from '@material-ui/icons';
+
+
 const styles = theme => ({
     root: {
-      display: 'flex',
-      textAlign: 'left',
-    },
-    drawer: {
-      [theme.breakpoints.up('sm')]: {
-        width: drawerWidth,
-        flexShrink: 0,
-      },
-    },
-    appBar: {
-      marginLeft: drawerWidth,
-      [theme.breakpoints.up('sm')]: {
-        width: `calc(100% - ${drawerWidth}px)`,
-      },
+        display: 'flex',
+        textAlign: 'left',
     },
     menuButton: {
-      marginRight: 20,
-      [theme.breakpoints.up('sm')]: {
-        display: 'none',
-      },
+        marginRight: 20,
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
     },
     toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-      width: drawerWidth,
-    },
     content: {
-      flexGrow: 1,
-      padding: theme.spacing.unit * 3,
+        flexGrow: 1,
+        padding: theme.spacing.unit * 3,
     },
     FormControl: {
-      paddingRight: 24,
+        paddingRight: 24,
     },
     max300: {
         maxWidth: 400,
     }
-    
-  });
+
+});
 
 class ProfileInformation extends Component {
-  state = {
-    mobileOpen: false,
-    loading: false,
-  };
+    state = {
+        // firstName: '',
+        // lastName: '',
+        // email: '',
+        // password: '',
+        // dobb: '',
+        // address: '',
+        // unit: '',
+        // city: '',
+        // state: '',
+        // zip: '',
+        loading: false,
+        editOn: false,
+        mobileOpen: false,
+        errors: {}
+    };
 
-  render() {
-    const { classes, theme } = this.props;
-    return (
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <form className={classes.max300} onSubmit={this.onFormSubmit}>
+    render() {
+        const { classes, theme } = this.props;
+        return (
+            <main className={classes.content}>
+                <div className={classes.toolbar} />
+                <Button
+                        onClick={() => { this.setState({ editOn: true }); }}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}>
+                        {this.state.loading && <CircularProgress size={25} color={'primary'} />}
+                        <Edit className={classes.leftIcon} />
+                        {!this.state.editOn && "Edit Profile"}
+                        {this.state.editOn && "Cancel"}
+                    </Button>
+                <form className={classes.max300} onSubmit={this.onFormSubmit} readOnly={!this.state.editOn}>
                     <FormControl margin="normal" required halfWidth>
                         <InputLabel htmlFor="firstName">First Name</InputLabel>
                         <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
-                            name="firstName" autoComplete="lastName" autoFocus />
+                            name="firstName" autoComplete="firstName" autoFocus />
                     </FormControl>
                     <FormControl margin="normal" required halfWidth>
                         <InputLabel htmlFor="email">Last Name</InputLabel>
@@ -142,8 +135,8 @@ class ProfileInformation extends Component {
                     }
 
                 </form>
-      </main>
-    )
-  }
+            </main>
+        )
+    }
 }
 export default withStyles(styles, { withTheme: true })(ProfileInformation);
