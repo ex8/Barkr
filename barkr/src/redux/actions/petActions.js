@@ -25,7 +25,6 @@ export const petLogin = (pet, history) => dispatch => {
                 setAuthToken(token);
                 const decoded = jwt_decode(token);
                 dispatch(setCurrentUser(decoded.data));
-                console.log(`USER DATA: ${JSON.stringify(decoded.data)}`);
                 history.push(`/`);
             }
         }).catch(err => {
