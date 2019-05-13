@@ -12,6 +12,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
+import Person from '@material-ui/icons/Person';
+import Lock from '@material-ui/icons/Lock';
+import Pets from '@material-ui/icons/Pets';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -24,7 +27,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import {CircularProgress, TextField} from "@material-ui/core";
 import ChangePassword from './profileComponents/changePassword';
 import ProfiileInformation from './profileComponents/profileInformation';
-
+import MyPetsPage from './profileComponents/myPets';
 
 const drawerWidth = 240;
 
@@ -70,12 +73,20 @@ const styles = theme => ({
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    mobileOpen: false,
+      mobileOpen: false,
+      myInfo: true,
+      changePassWord: false,
+      myPets: false,
   };
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
+  changeDisplay = (newScreen) =>{
+      this.setState(state =>({
+
+      }))
+  }
 
   render() {
     const { classes, theme } = this.props;
@@ -83,7 +94,7 @@ class ResponsiveDrawer extends React.Component {
     const drawer = (
       <div>
         <div className={classes.toolbar} />
-        <Divider />
+        {/* <Divider />
         <List>
           {['My Information', 'My Pets', 'Change Password'].map((text, index) => (
             <ListItem button key={text}>
@@ -92,14 +103,32 @@ class ResponsiveDrawer extends React.Component {
             </ListItem>
           ))}
         </List>
+        <Divider /> */}
         <Divider />
+        <List>
+            <ListItem button onClick={() => { this.setState({ myInfo: true, changePassWord: false, myPets: false, }); }} selected={this.state.myInfo}>
+              <ListItemIcon><Person /></ListItemIcon>
+              <ListItemText primary="My Information" />
+            </ListItem>
+            <ListItem button onClick={() => { this.setState({ myInfo: false, changePassWord: true, myPets: false, }); }} selected={this.state.changePassWord}>
+              <ListItemIcon><Lock /></ListItemIcon>
+              <ListItemText primary="Change Password" />
+            </ListItem>
+            <ListItem button onClick={() => { this.setState({ myInfo: false, changePassWord: false, myPets: true, }); }} selected={this.state.myPets}>
+              <ListItemIcon><Pets /></ListItemIcon>
+              <ListItemText primary="My Pets" />
+            </ListItem>
+        </List>
+        <Divider />
+
+
       </div>
     );
 
     return (
         <div className={classes.root} style={{ textalign: 'none' }}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
+            {/* <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -113,7 +142,7 @@ class ResponsiveDrawer extends React.Component {
                         Responsive drawer
             </Typography>
                 </Toolbar>
-            </AppBar>
+            </AppBar> */}
             <nav className={classes.drawer}>
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Hidden smUp implementation="css">
@@ -144,8 +173,9 @@ class ResponsiveDrawer extends React.Component {
             </nav>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <ProfiileInformation />
-                <ChangePassword />
+                {this.state.myInfo && <ProfiileInformation />}
+                {this.state.changePassWord && <ChangePassword />}
+                {this.state.myPets && <MyPetsPage />}
             </main>
         </div>
     );
