@@ -1,21 +1,82 @@
-import React from 'react';
-import '../style.css';
+import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import axios from 'axios';
+import Pet from './Pet';
 
+class PetNavigator extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            petsAround: [],
+            errorMessage: '',
+            currentPet: {},
+            counter: 0,
+            isEnd: false
+        }
+    }
 
-const PetNavigator = () => (
+    componentWillMount = () => {
+        if (!this.props.auth.isAuthenticated) {
+            this.props.history.push(`/login`);
+        }
+    };
 
-<div class="card">
-  <img src="https://images.pexels.com/photos/4933/lake-animals-dogs-pets.jpg" alt="Photo of pet"></img>
-  <div class="container">
-    <h1>Name</h1> 
-    <h2><b>Breed</b></h2> 
-    <p>Text here</p> 
-    <button class="btn btn-red">&#x2716;</button>
-    {/* need to implement on click action  */}
-    <div class="divider"/>
-    <button class="btn btn-green">&#x2714;</button>
-  </div>
-</div>
-);
+    componentDidMount = () => {
+        const token = localStorage.getItem(`jwtToken`);
+        if (this.props.auth.isAuthenticated) {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                 }
+            }
+            axios.get(`/api/pets-around`, config)
+                .then(pets => {
+                    this.setState({
+                        petsAround: pets.data.pets,
+                        currentPet: pets.data.pets[this.state.counter]
+                    });
+                }).catch(err => {
+                    this.setState({
+                        errorMessage: `Error fetching pets around; ${err}`
+                    })
+                });
+        }
+    };
 
-export default PetNavigator;
+    onDislikeClick = () => {
+        if (this.state.petsAround.length - 1 === this.state.counter) {
+            this.setState({
+                isEnd: true
+            });
+        }
+        this.setState(prevState => ({
+            counter: prevState.counter + 1,
+            currentPet: this.state.petsAround[prevState.counter + 1]
+        }))
+    };
+
+    onLikeClick = () => {
+        console.log('liked');
+    };
+
+    render() {
+        return (
+            <div>
+                {!this.state.isEnd && <Pet 
+                    key={this.state.currentPet._id}
+                    pet={this.state.currentPet} 
+                    handleDislikeClick={this.onDislikeClick}
+                    handleLikeClick={this.onLikeClick} 
+                />}
+                {this.state.isEnd && 'End of pets around...'}
+            </div>
+        )
+    };
+}
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps)(withRouter(PetNavigator));

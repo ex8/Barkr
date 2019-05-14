@@ -6,6 +6,7 @@ import About from "./components/About";
 import Login from "./components/Login";
 import PetNavigator from "./components/PetNavigator";
 import Signup from "./components/Signup";
+import Profile from "./components/Profile";
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                 <Navigation/>
                 <Route exact path='/' component={PetNavigator}/>
                 <Route exact path='/about' component={About}/>
+                <Route exact path='/profile' component={Profile}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/signup' component={Signup}/>
             </div>
