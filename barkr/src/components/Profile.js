@@ -35,10 +35,6 @@ const styles = theme => ({
             marginRight: 'auto',
         },
     },
-    sideNav: {
-        display: 'block',
-        width: 200,
-    },
     root: {
         display: 'flex',
     },
