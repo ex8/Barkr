@@ -1,7 +1,7 @@
 FROM node:12-alpine
 
 WORKDIR /main
-COPY ./server/websocket.js /main
+COPY ./backend/websocket.js /main
 COPY ./package.json /main
 COPY ./package-lock.json /main
 
