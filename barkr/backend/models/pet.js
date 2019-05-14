@@ -34,6 +34,10 @@ const petSchema = new Schema({
     state: {
         type: String,
         required: true
+    },
+    likes: {
+        type: Map,
+        of: Boolean
     }
 });
 

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import {AppBar, Toolbar, Typography, IconButton, Button} from '@material-ui/core';
-import {AccountCircle} from '@material-ui/icons';
+import {AppBar, Toolbar, Typography, Button} from '@material-ui/core';
 import {connect} from 'react-redux';
 import {petLogout} from '../redux/actions/petActions';
 import {Link, withRouter} from "react-router-dom";
@@ -32,9 +31,12 @@ class Navigation extends Component {
         const {classes} = this.props;
         const authLinks = (
             <div>
-                <IconButton color="inherit" aria-label="Profile">
-                    <AccountCircle/>
-                </IconButton>
+                <Link to='/about' className={classes.linkButton}>
+                    <Button color='inherit'>About</Button>
+                </Link>
+                <Link to='/profile' className={classes.linkButton}>
+                    <Button color='inherit'>Profile</Button>
+                </Link>
                 <Button onClick={this.onLogout} color='inherit'>Logout</Button>
             </div>
         );
