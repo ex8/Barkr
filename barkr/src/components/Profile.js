@@ -120,15 +120,6 @@ class Profile extends Component {
         const {classes} = this.props;
         return (            
             <main className={classes.root}>
-             <Paper className={classes.paper}>
-                <div className= {classes.sideNav}>
-                <MenuList>
-                    <MenuItem>My Information</MenuItem>
-                    <MenuItem>My Pets</MenuItem>
-                    <MenuItem>Change Password</MenuItem>
-                </MenuList>
-                </div>
-                </Paper>
                 <div className={classes.main}>
                 <CssBaseline />
                 <Paper className={classes.paper}>
