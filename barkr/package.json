@@ -7,7 +7,7 @@
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
-    "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
     "express": "^4.16.4",
     "http-errors": "^1.7.2",
     "http-proxy": "^1.17.0",
@@ -22,6 +22,7 @@
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
+    "redis": "^2.8.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "websocket": "^1.0.28"
