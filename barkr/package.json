@@ -22,13 +22,14 @@
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
+    "redis": "^2.8.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "websocket": "^1.0.28"
   },
   "scripts": {
-    "staging": "node backend/gateway.js & node backend/app.js & node backend/frontend.js",
-    "dev": "node backend/gateway.js & node backend/app.js & npm start",
+    "staging": "node backend/gateway.js & node backend/app.js & node backend/frontend.js & node backend/websocket.js",
+    "dev": "node backend/gateway.js & node backend/app.js & node backend/websocket.js & npm start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

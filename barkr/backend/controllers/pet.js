@@ -17,7 +17,7 @@ const signUp = (req, res) => {
         breed: req.body.breed,
         city: req.body.city,
         state: req.body.state,
-        likes: {}
+        likes: []
     })
         .then(pet => res.json({
             success: true,
@@ -59,7 +59,7 @@ const login = (req, res) => {
         })
         .catch(err => res.json({
             success: false,
-            message: `Error finding email`
+            message: `Error finding email; ${err}`
         }));
 };
 
@@ -67,7 +67,7 @@ const addLikedPet = (req, res) => {
     if (Object.keys(req.body).length === 0) return res.send('Body required in POST request');
     Pet.findById(req.user.id)
         .then(pet => {
-            pet.likes.set(req.body.id, true);
+            pet.likes.push(req.body.id);
             pet.save()
                 .then(() => res.json({
                     success: true
@@ -80,7 +80,7 @@ const addLikedPet = (req, res) => {
 const petsAround = (req, res) => {
     Pet.find({
         _id: {
-            $ne: req.user.id
+            $ne: req.user.id,
         }
     })
     .then(pets => {

@@ -1,83 +1,143 @@
-import React, {Component} from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Avatar from '@material-ui/core/Avatar';
+import React, { Component } from 'react';
+import Divider from '@material-ui/core/Divider';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { CircularProgress, TextField } from "@material-ui/core";
+import {Person, AccountCircle, Label, Edit} from '@material-ui/icons';
 
 const styles = theme => ({
-    main: {
-        width: 'auto',
-        display: 'block', // Fix IE 11 issue.
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
-        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-            width: 400,
-            marginLeft: 'auto',
-            marginRight: 'auto',
+    root: {
+        display: 'flex',
+        textAlign: 'left',
+    },
+    menuButton: {
+        marginRight: 20,
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
         },
     },
-    paper: {
-        marginTop: theme.spacing.unit * 8,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    toolbar: theme.mixins.toolbar,
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing.unit * 3,
     },
-    avatar: {
-        margin: theme.spacing.unit,
-        backgroundColor: theme.palette.primary.main,
+    FormControl: {
+        paddingRight: 24,
     },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing.unit,
-    },
-    submit: {
-        marginTop: theme.spacing.unit * 3,
-    },
+    max300: {
+        maxWidth: 400,
+    }
+
 });
 
 class Profile extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            // firstName: '',
+            // lastName: '',
+            // email: '',
+            // password: '',
+            // dobb: '',
+            // address: '',
+            // unit: '',
+            // city: '',
+            // state: '',
+            // zip: '',
+            loading: false,
+            editOn: false,
+            mobileOpen: false,
+            errors: {}
+        };
     }
 
     render() {
         const {classes} = this.props;
         return (
-            <main className={classes.main}>
-                <CssBaseline/>
-                <Paper className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon/>
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Edit Pet Profile
-                    </Typography>
-                    <form className={classes.form} onSubmit={this.onFormSubmit}>
-                        <FormControl margin="normal" fullWidth>
-                            <InputLabel htmlFor="email">Email Address</InputLabel>
-                            <Input id="email" name="email" autoComplete="email"/>
-                        </FormControl>
+            <main className={classes.content}>
+                <Button
+                        onClick={() => { this.setState({ editOn: true }); }}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}>
+                        {this.state.loading && <CircularProgress size={25} color={'primary'} />}
+                        <Edit className={classes.leftIcon} />
+                        {!this.state.editOn && "Edit Profile"}
+                        {this.state.editOn && "Cancel"}
+                    </Button>
+                <form className={classes.max300} onSubmit={this.onFormSubmit} readOnly={!this.state.editOn}>
+                    <FormControl margin="normal" required halfWidth>
+                        <InputLabel htmlFor="firstName">First Name</InputLabel>
+                        <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
+                            name="firstName" autoComplete="firstName" autoFocus />
+                    </FormControl>
+                    <FormControl margin="normal" required halfWidth>
+                        <InputLabel htmlFor="email">Last Name</InputLabel>
+                        <Input id="LastName" value={this.state.lastName} onChange={this.onInputChange}
+                            name="firstName" autoComplete="lastName" autoFocus />
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="email">Email Address</InputLabel>
+                        <Input id="email" value={this.state.email} onChange={this.onInputChange}
+                            name="email" autoComplete="email" autoFocus />
+                    </FormControl>
+                    <TextField
+                        id="date"
+                        label="Birthday"
+                        type="date"
+                        defaultValue="2017-05-24"
+                        margin="normal"
+                        fullWidth
+                        className={classes.textField}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                    <Divider />
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="Address">Address</InputLabel>
+                        <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
+                            name="firstName" autoComplete="lastName" autoFocus />
+                    </FormControl>
+                    <FormControl margin="normal" fullWidth>
+                        <InputLabel htmlFor="Address">Unit</InputLabel>
+                        <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
+                            name="firstName" autoComplete="lastName" autoFocus />
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="Address">City</InputLabel>
+                        <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
+                            name="firstName" autoComplete="lastName" autoFocus />
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="Address">State</InputLabel>
+                        <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
+                            name="firstName" autoComplete="state" autoFocus />
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="Address">Zip</InputLabel>
+                        <Input id="FirsName" value={this.state.firstName} onChange={this.onInputChange}
+                            name="firstName" autoComplete="lastName" autoFocus />
+                    </FormControl>
+                    {this.state.editOn &&
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}>
-                            Update Pet Profile
+                            {!this.state.loading && 'Submit'}
+                            {this.state.loading && <CircularProgress size={25} color={'primary'} />}
                         </Button>
-                    </form>
-                </Paper>
+                    }
+                </form>
             </main>
         )
     };
 }
 
-export default withStyles(styles)(Profile);
+export default withStyles(styles, { withTheme: true })(Profile);
