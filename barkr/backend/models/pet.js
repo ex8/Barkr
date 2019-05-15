@@ -24,6 +24,9 @@ const petSchema = new Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String
+    },
     thumbnail: {
         type: String,
     },
@@ -36,8 +39,7 @@ const petSchema = new Schema({
         required: true
     },
     likes: {
-        type: Map,
-        of: Boolean
+        type: Array
     }
 });
 

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -41,20 +40,21 @@ const styles = theme => ({
     paper: {
         marginTop: theme.spacing.unit * 8,
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+        textAlign: 'left',
     },
-    avatar: {
-        margin: theme.spacing.unit,
-        backgroundColor: theme.palette.primary.main,
+    menuButton: {
+        marginRight: 20,
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
     },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing.unit,
+    toolbar: theme.mixins.toolbar,
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing.unit * 3,
     },
-    submit: {
-        marginTop: theme.spacing.unit * 3,
+    FormControl: {
+        paddingRight: 24,
     },
     container: {
         display: 'flex',
@@ -68,7 +68,7 @@ const styles = theme => ({
     },
     card: {
         maxWidth: 400,
-    },
+    }
 });
 const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Federated States of Micronesia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
 

@@ -34,6 +34,9 @@ class Navigation extends Component {
                 <Link to='/about' className={classes.linkButton}>
                     <Button color='inherit'>About</Button>
                 </Link>
+                <Link to='/chats' className={classes.linkButton}>
+                    <Button color='inherit'>Chats</Button>
+                </Link>
                 <Link to='/profile' className={classes.linkButton}>
                     <Button color='inherit'>Profile</Button>
                 </Link>
