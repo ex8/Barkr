@@ -3,7 +3,7 @@ import '../styles.css';
 
 const Pet = ({pet, handleDislikeClick, handleLikeClick}) => (
     <div className="card">
-        <img src="https://images.pexels.com/photos/4933/lake-animals-dogs-pets.jpg" alt="bruh"/>
+        <img src="https://i.imgur.com/FliOBq3.png" alt="bruh"/>
         <div className="container">
             <h1>{pet.name}</h1> 
             <h2><b>{pet.breed}</b></h2> 
