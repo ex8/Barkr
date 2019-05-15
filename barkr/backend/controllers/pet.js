@@ -15,6 +15,8 @@ const signUp = (req, res) => {
         name: req.body.name,
         age: req.body.age,
         breed: req.body.breed,
+        description: req.body.description,
+        thumbnail: '',
         city: req.body.city,
         state: req.body.state,
         likes: []
@@ -78,9 +80,10 @@ const addLikedPet = (req, res) => {
 };
 
 const petsAround = (req, res) => {
+    console.log(`REQ: ${req.user}`);
     Pet.find({
         _id: {
-            $ne: req.user.id,
+            $nin: req.user.likes.concat(req.user.id),
         }
     })
     .then(pets => {

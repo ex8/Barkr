@@ -5,18 +5,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import { Person, AccountCircle, Label, Edit, Save } from '@material-ui/icons';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { CircularProgress, TextField } from "@material-ui/core";
-import { petLogin } from '../redux/actions/petActions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -76,20 +71,18 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            email: this.props.auth.user.email,
+            name: this.props.auth.user.name,
+            age: this.props.auth.user.age,
+            breed: this.props.auth.user.breed,
+            description: this.props.auth.user.description,
+            thumbnail: this.props.auth.user.thumbnail,
+            city: this.props.auth.user.city,
+            state: this.props.auth.user.state,
             // Existing Profile Picture
             profilePic: null,
             // This is the picture that the user is uploading to replace Profile Pic
             uploadImg: null,
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            dobb: '',
-            address: '',
-            unit: '',
-            city: '',
-            state: '',
-            zip: '',
             loading: false,
             editOn: false,
             errors: {}
@@ -107,13 +100,6 @@ class Profile extends Component {
         this.setState({
             editOn: false,
         })
-        // this.setState({ loading: true });
-        // const pet = {
-        //     email: this.state.email,
-        //     password: this.state.password
-        // };
-        // this.props.petLogin(pet, this.props.history);
-        // this.setState({ loading: false });
     };
 
     componentWillReceiveProps = nextProps => {
@@ -146,7 +132,6 @@ class Profile extends Component {
             editOn: false,
         })
     }
-
 
     render() {
         const { classes } = this.props;
@@ -183,8 +168,8 @@ class Profile extends Component {
                                 />
                                 <CardContent>
                                     <Typography component="p">
-                                        Try to make sure you take a super snazzy profile pic!
-                                        </Typography>
+                                        This photo will be shown to other pets to swipe around!
+                                    </Typography>
                                 </CardContent>
                                 <CardActions >
                                     {this.state.editOn &&
@@ -193,19 +178,18 @@ class Profile extends Component {
                                             className={classes.input}
                                             style={{ display: 'none' }}
                                             id="raised-button-file"
-                                            multiple
                                             type="file"
                                             onChange={this.fileSelectedHandler}
                                         />
                                     }
                                     <label htmlFor="raised-button-file">
-                                        <Button size="small" variant="raised" component="span"
+                                        <Button size="small" variant="contained" component="span"
                                             className={classes.button}
                                             disabled={!this.state.editOn}>
                                             Choose Picture
                                     </Button>
                                     </label>
-                                    <Button size="small" color="primary" disabled="true"></Button>
+                                    <Button size="small" color="primary" disabled={true}></Button>
                                     {this.state.editOn &&
                                         <Button size="small" color="primary"
                                             onClick={this.fileUPloadHandler}
@@ -216,23 +200,41 @@ class Profile extends Component {
                                     </Button>
                                     }
                                 </CardActions>
-
                             </Card>
-
                             <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="firstName">First Name</InputLabel>
-                                <Input id="firsName" value={this.state.firstName} onChange={this.onInputChange}
-                                    name="firstName" autoComplete="lastName" autoFocus readOnly={!this.state.editOn}/>
-                            </FormControl>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="lastName">Last Name</InputLabel>
-                                <Input id="lastName" value={this.state.lastName} onChange={this.onInputChange}
-                                    name="lastName" autoComplete="lastName" autoFocus readOnly={!this.state.editOn}/>
-                            </FormControl>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="email">Email Address</InputLabel>
+                                <InputLabel htmlFor="email">Email</InputLabel>
                                 <Input id="email" value={this.state.email} onChange={this.onInputChange}
                                     name="email" autoComplete="email" autoFocus readOnly={!this.state.editOn}/>
+                            </FormControl>
+                            <FormControl margin="normal" required fullWidth>
+                                <InputLabel htmlFor="name">Pet Name</InputLabel>
+                                <Input id="name" value={this.state.name} onChange={this.onInputChange}
+                                    name="name" autoComplete="name" readOnly={!this.state.editOn}/>
+                            </FormControl>
+                            <FormControl margin="normal" required fullWidth>
+                                <InputLabel htmlFor="age">Pet Age</InputLabel>
+                                <Input id="age" value={this.state.age} onChange={this.onInputChange}
+                                    name="age" autoComplete="age" readOnly={!this.state.editOn}/>
+                            </FormControl>
+                            <FormControl margin="normal" required fullWidth>
+                                <InputLabel htmlFor="breed">Pet Breed</InputLabel>
+                                <Input id="breed" value={this.state.breed} onChange={this.onInputChange}
+                                    name="breed" autoComplete="breed" readOnly={!this.state.editOn}/>
+                            </FormControl>
+                            <FormControl margin="normal" required fullWidth>
+                                <InputLabel htmlFor="description">Pet Description</InputLabel>
+                                <Input id="description" value={this.state.description} onChange={this.onInputChange}
+                                    name="description" autoComplete="description" readOnly={!this.state.editOn}/>
+                            </FormControl>
+                            <FormControl margin="normal" required fullWidth>
+                                <InputLabel htmlFor="city">City</InputLabel>
+                                <Input id="city" value={this.state.city} onChange={this.onInputChange}
+                                    name="city" autoComplete="city" readOnly={!this.state.editOn}/>
+                            </FormControl>
+                            <FormControl margin="normal" required fullWidth>
+                                <InputLabel htmlFor="state">State</InputLabel>
+                                <Input id="state" value={this.state.state} onChange={this.onInputChange}
+                                    name="state" autoComplete="state" readOnly={!this.state.editOn}/>
                             </FormControl>
                             <TextField
                                 id="date"
@@ -247,35 +249,9 @@ class Profile extends Component {
                                 }}
                                 readOnly={!this.state.editOn}
                             />
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="Address">Address</InputLabel>
-                                <Input id="address" value={this.state.address} onChange={this.onInputChange}
-                                    name="address" autoComplete="address" autoFocus readOnly={!this.state.editOn}/>
-                            </FormControl>
-                            <FormControl margin="normal" fullWidth>
-                                <InputLabel htmlFor="unit">Unit</InputLabel>
-                                <Input id="unit" value={this.state.unit} onChange={this.onInputChange}
-                                    name="unit" autoComplete="unit" autoFocus readOnly={!this.state.editOn}/>
-                            </FormControl>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="city">City</InputLabel>
-                                <Input id="city" value={this.state.city} onChange={this.onInputChange}
-                                    name="city" autoComplete="city" autoFocus readOnly={!this.state.editOn}/>
-                            </FormControl>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="state">State</InputLabel>
-                                <Input id="state" value={this.state.state} onChange={this.onInputChange}
-                                    name="state" autoComplete="state" autoFocus readOnly={!this.state.editOn}/>
-                            </FormControl>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="zip">Zip</InputLabel>
-                                <Input id="zip" value={this.state.zip} onChange={this.onInputChange}
-                                    name="zip" autoComplete="zip" autoFocus readOnly={!this.state.editOn}/>
-                            </FormControl>
                             {this.state.editOn &&
                                 <Button
                                     type="submit"
-                                    fullWidth
                                     variant="contained"
                                     color="primary"
                                     className={classes.submit}>
@@ -292,12 +268,9 @@ class Profile extends Component {
 }
 
 const mapStateToProps = state => ({
-    errors: state.errors,
     auth: state.auth
 });
 
-const mapDispatchToProps = { petLogin };
-
 export default withStyles(styles)(connect(
-    mapStateToProps, mapDispatchToProps
+    mapStateToProps
 )(withRouter(Profile)));
