@@ -12,7 +12,6 @@ class Chat extends Component {
         this.ws = new WebSocket(`ws://localhost:3030`)
     }
   componentDidMount() {
-      console.log(`OMGOGOMGOMG: ${JSON.stringify(this.state.auth)}`);
     this.ws.onopen = () => {
       console.log('react ws connected')
     }
