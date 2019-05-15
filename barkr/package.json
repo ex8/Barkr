@@ -6,6 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
+    "@material-ui/styles": "^4.0.0-beta.1",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.6",
     "express": "^4.16.4",
@@ -13,6 +14,7 @@
     "http-proxy": "^1.17.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
+    "material-ui-upload": "^1.2.1",
     "mongoose": "^5.5.5",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
