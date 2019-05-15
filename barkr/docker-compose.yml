@@ -65,7 +65,10 @@ services:
     networks:
       - webnet
     environment:
+      WAIT_HOSTS: mongodb:27017
+    environment:
       - REDIS_HOST=redis
       - MONGO_HOST=mongodb://mongodb:27017
+      
 networks: 
   webnet:
