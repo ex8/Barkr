@@ -8,11 +8,17 @@ COPY ./public /main/public
 COPY ./package.json /main
 COPY ./package-lock.json /main
 
-RUN npm install
+# RUN npm install
 
 # RUN ls /main
+# RUN npm run build
+RUN apk --no-cache --virtual build-dependencies add \
+    python \
+    make \
+    g++
+RUN npm install
 RUN npm run build
-
+RUN apk del build-dependencies
 
 EXPOSE 3000
 

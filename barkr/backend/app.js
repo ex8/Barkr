@@ -9,7 +9,7 @@ const apiRouter = require('./routes/endpoints');
 const app = express();
 
 // mongodb
-mongoose.connect(`mongodb://127.0.0.1:27017/barkr`, {useNewUrlParser: true})
+mongoose.connect(`mongodb://mongodb:27017/barkr`, {useNewUrlParser: true})
     .then(() => console.log(`MongoDB connection running...`))
     .catch(err => {
         console.error(`MongoDB connection error: ${err}`);
