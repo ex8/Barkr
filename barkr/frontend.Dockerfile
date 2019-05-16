@@ -3,6 +3,7 @@ FROM node:12-alpine
 WORKDIR /main
 COPY ./backend/frontend.js /main
 COPY ./src /main/src
+COPY ./public /main/public
 # RUN ls ./build
 COPY ./package.json /main
 COPY ./package-lock.json /main
