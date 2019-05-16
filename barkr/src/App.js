@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import PetNavigator from "./components/PetNavigator";
 import Signup from "./components/Signup";
 import Profile from "./components/Profile";
+import Wa from "./components/profile/Wa";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route exact path='/profile' component={Profile}/>
                 <Route exact path='/login' component={Login}/>
                 <Route exact path='/signup' component={Signup}/>
+                <Route exact path='/wa' component={Wa}/>
             </div>
         </BrowserRouter>
     );
