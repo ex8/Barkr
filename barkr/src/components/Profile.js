@@ -9,13 +9,14 @@ import { AccountCircle, Edit } from '@material-ui/icons';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { CircularProgress, TextField } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import axios from 'axios';
 
 const styles = theme => ({
     main: {
@@ -79,7 +80,7 @@ class Profile extends Component {
             city: this.props.auth.user.city,
             state: this.props.auth.user.state,
             // Existing Profile Picture
-            profilePic: null,
+            profilePic: this.props.auth.user.thumbnail || null,
             // This is the picture that the user is uploading to replace Profile Pic
             uploadImg: null,
             loading: false,
@@ -96,9 +97,26 @@ class Profile extends Component {
 
     onFormSubmit = e => {
         e.preventDefault();
+        const token = localStorage.getItem(`jwtToken`);
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+             }
+        };
+        axios.post(`/api/update-pet`, {
+            email: this.state.email,
+            name: this.state.name,
+            age: this.state.age,
+            breed: this.state.breed,
+            description: this.state.description,
+            city: this.state.city,
+            state: this.state.state
+        }, config)
+            .then(response => console.log(`UPDATE PROFILE: ${response}`))
+            .catch(err => console.error(`ERROR UPDATING PROFILE: ${err}`));
         this.setState({
             editOn: false,
-        })
+        });
     };
 
     componentWillReceiveProps = nextProps => {
@@ -123,13 +141,18 @@ class Profile extends Component {
         console.log(URL.createObjectURL(event.target.files[0]));
     }
     fileUPloadHandler = () => {
-        // Do some magic shit to send to the backend
-    }
-    submitForm = () => {
-        console.log("Form Submit");
-        this.setState({
-            editOn: false,
-        })
+        const token = localStorage.getItem(`jwtToken`);
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'content-type': 'multipart/form-data'
+             }
+        };
+        let formData = new FormData();
+        formData.append('thumbnail', this.state.uploadImg);
+        axios.post(`/api/upload-pet-image`, formData, config)
+            .then(response => console.log(`REACT: RESPONSE FROM IMG UPLOAD: ${JSON.stringify(response)}`))
+            .catch(err => console.error(`REACT: ERROR UPLOAD IMG: ${err}`));
     }
 
     render() {
@@ -158,11 +181,11 @@ class Profile extends Component {
                             </Button>
                         }
 
-                        <form className={classes.container} onSubmit={this.onFormSubmit}>
+                        <form className={classes.container} onSubmit={this.onFormSubmit} encType="multipart/form-data">
                             <Card display="flex">
                                 <CardMedia
                                     className={classes.media}
-                                    image={this.state.profilePic !== null ? this.state.profilePic : '/placehold-person.jpg'}
+                                    image={this.state.profilePic !== null ? `/uploads/${this.state.profilePic}` : '/placehold-person.jpg'}
                                     title="Contemplative Reptile"
                                 />
                                 <CardContent>
@@ -212,7 +235,7 @@ class Profile extends Component {
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="age">Pet Age</InputLabel>
-                                <Input id="age" value={this.state.age} onChange={this.onInputChange}
+                                <Input type="number" id="age" value={this.state.age} onChange={this.onInputChange}
                                     name="age" autoComplete="age" readOnly={!this.state.editOn}/>
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
@@ -235,19 +258,6 @@ class Profile extends Component {
                                 <Input id="state" value={this.state.state} onChange={this.onInputChange}
                                     name="state" autoComplete="state" readOnly={!this.state.editOn}/>
                             </FormControl>
-                            <TextField
-                                id="date"
-                                label="Birthday"
-                                type="date"
-                                defaultValue="2017-05-24"
-                                margin="normal"
-                                fullWidth
-                                className={classes.textField}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                readOnly={!this.state.editOn}
-                            />
                             {this.state.editOn &&
                                 <Button
                                     type="submit"

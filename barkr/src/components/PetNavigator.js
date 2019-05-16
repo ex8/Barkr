@@ -68,7 +68,7 @@ class PetNavigator extends Component {
                 headers: {
                     Authorization: `Bearer ${token}`
                  }
-            }
+            };
             axios.post(`/api/add-like`, {id: this.state.currentPet._id}, config)
             .then(response => {
                 if (response.data.success) {
@@ -85,7 +85,7 @@ class PetNavigator extends Component {
     render() {
         return (
             <div>
-                {!this.state.isEnd && <Pet 
+                {!this.state.isEnd && this.state.currentPet && <Pet 
                     key={this.state.currentPet._id}
                     pet={this.state.currentPet} 
                     handleDislikeClick={this.onDislikeClick}

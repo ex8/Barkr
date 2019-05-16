@@ -15,7 +15,7 @@ const signUp = (req, res) => {
         name: req.body.name,
         age: req.body.age,
         breed: req.body.breed,
-        description: req.body.description,
+        description: '',
         thumbnail: '',
         city: req.body.city,
         state: req.body.state,
@@ -80,7 +80,6 @@ const addLikedPet = (req, res) => {
 };
 
 const petsAround = (req, res) => {
-    console.log(`REQ: ${req.user}`);
     Pet.find({
         _id: {
             $nin: req.user.likes.concat(req.user.id),
@@ -94,10 +93,35 @@ const petsAround = (req, res) => {
     }).catch(err => console.error(`Error finding pets around: ${err}`));
 };
 
+const uploadPetImage = (req, res) => {
+    Pet.findById(req.user.id)
+        .then(pet => {
+            pet.thumbnail = req.file.filename;
+            pet.save()
+                .then(() => {
+                    res.json({
+                        success: true
+                    });
+                })
+                .catch(err => console.error(`Error saving pet image to pet model: ${err}`));
+        })
+        .catch(err => console.error(`Error finding pet: ${err}`));
+};
+
+const updatePet = (req, res) => {
+    Pet.findByIdAndUpdate(req.user.id, req.body)
+        .then(pet => res.json({
+            success: true
+        }))
+        .catch(err => console.error(`Error finding and updating pet: ${err}`));
+}
+
 module.exports = {
     petsAround,
     addLikedPet,
+    updatePet,
     login,
     signUp,
-    me
+    me,
+    uploadPetImage
 };
