@@ -23,8 +23,8 @@ class PetNavigator extends Component {
     };
 
     componentDidMount = () => {
-        const token = localStorage.getItem(`jwtToken`);
         if (this.props.auth.isAuthenticated) {
+            const token = localStorage.getItem(`jwtToken`);
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -53,17 +53,39 @@ class PetNavigator extends Component {
         this.setState(prevState => ({
             counter: prevState.counter + 1,
             currentPet: this.state.petsAround[prevState.counter + 1]
-        }))
+        }));
     };
 
     onLikeClick = () => {
-        console.log('liked');
+        if (this.state.petsAround.length - 1 === this.state.counter) {
+            this.setState({
+                isEnd: true
+            });
+        }
+        if (this.props.auth.isAuthenticated) {
+            const token = localStorage.getItem(`jwtToken`);
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                 }
+            };
+            axios.post(`/api/add-like`, {id: this.state.currentPet._id}, config)
+            .then(response => {
+                if (response.data.success) {
+                    this.setState(prevState => ({
+                        counter: prevState.counter + 1,
+                        currentPet: this.state.petsAround[prevState.counter + 1]
+                    }));
+                }
+            })
+            .catch(err => console.error(`Error adding liked pet; ${err}`));
+        }
     };
 
     render() {
         return (
             <div>
-                {!this.state.isEnd && <Pet 
+                {!this.state.isEnd && this.state.currentPet && <Pet 
                     key={this.state.currentPet._id}
                     pet={this.state.currentPet} 
                     handleDislikeClick={this.onDislikeClick}

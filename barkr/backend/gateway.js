@@ -4,6 +4,7 @@ const httpProxy = require('http-proxy');
 
 // PORTS
 // FRONTEND -> 3000
+// WEBSOCKET -> 3030
 // GATEWAY -> 4000
 // BACKEND -> 5000
 
@@ -12,32 +13,32 @@ const appServer = server.createServer(app);
 const apiProxy = httpProxy.createProxyServer(app);
 
 const wsProxy = httpProxy.createProxyServer({
-    target: `http://localhost:6000`,
+    target: process.env.WEBSOCKET_HOST || `http://localhost:3030`,
     ws: true
 });
 
 // backend micro-service
 app.all(`/api*`, (req, res) => {
     apiProxy.web(req, res, {
-        target: `http://localhost:5000`
+        target: process.env.BACKEND_HOST || `http://localhost:5000`
     })
 });
 
 // websocket micro-service
-// app.all(`/websocket*`, (req, res) => {
-//     apiProxy.web(req, res, {
-//         target: `http://localhost:6000`
-//     });
-// });
-//
-// appServer.on(`upgrade`, (req, socket, head) => {
-//     wsProxy.ws(req, socket, head);
-// });
+app.all(`/websocket*`, (req, res) => {
+    apiProxy.web(req, res, {
+        target: process.env.WEBSOCKET_HOST || `http://localhost:3030/websocket`
+    });
+});
+
+appServer.on(`upgrade`, (req, socket, head) => {
+    wsProxy.ws(req, socket, head);
+});
 
 // frontend micro-service
 app.all(`/*`, (req, res) => {
     apiProxy.web(req, res, {
-        target: `http://localhost:3000`
+        target: process.env.FRONTEND_HOST || `http://localhost:3000`
     });
 });
 
