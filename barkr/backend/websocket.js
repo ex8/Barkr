@@ -1,4 +1,6 @@
 const WebSocket = require('ws');
+const redis = require('redis');
+const client = redis.createClient({host: process.env.REDIS_HOST || 'localhost'});
 
 const wss = new WebSocket.Server({port: 3030});
 
@@ -11,3 +13,9 @@ wss.on(`connection`, ws => {
         });
     });
 });
+
+client.on(`message`, (channel, message) => {
+    wss.clients.forEach(c => c.send(message));
+});
+
+client.subscribe(`publish`);

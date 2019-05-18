@@ -1,4 +1,6 @@
 const Pet = require('../models/pet');
+const redis = require('redis');
+const client = redis.createClient({host: process.env.REDIS_HOST || 'localhost'});
 
 const me = (req, res) => {
     res.json({
