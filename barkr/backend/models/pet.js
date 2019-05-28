@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const petSchema = new Schema({
@@ -24,6 +24,9 @@ const petSchema = new Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String
+    },
     thumbnail: {
         type: String,
     },
@@ -36,8 +39,7 @@ const petSchema = new Schema({
         required: true
     },
     likes: {
-        type: Map,
-        of: Boolean
+        type: Array
     }
 });
 
