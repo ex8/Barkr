@@ -16,12 +16,16 @@ Just swipe right on any fabulous pets you'd like your pet to go on a date with.
  Frontend <--> Microservice Gateway <--> Backend <--> MongoDB
 
 
-# 
+# Images
 
-Creating a new account
+Login
 
-![Creating a new account](./sketch/register.jpg)
+![Creating a new account](./sketch/login.png)
 
 Viewing other pets in the area
 
-![Viewing other pets](./sketch/homepage.jpg)
+![Viewing other pets](./sketch/navigator.png)
+
+Profile; upload image and update pet profile information
+
+![Viewing other pets](./sketch/profile.png)
