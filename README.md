@@ -17,7 +17,9 @@ Just swipe right on any fabulous pets you'd like your pet to go on a date with.
  
  # Technologies Used
  Node
+ 
  Express
+ 
  MongoDB
  Passport.js + Passport-JWT
  Microservice architecture (backend -> 5000, frontend -> 3000, websockets -> 6000, gateway -> 4000)
